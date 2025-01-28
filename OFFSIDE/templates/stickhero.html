@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<!-- Coding By CodingNepal - www.codingnepalweb.com -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hangman Game</title>
+    <link rel="stylesheet" href="http://127.0.0.1:5000/static/style.css">
+    <script src="http://127.0.0.1:5000/static/word-list.js" defer></script>
+    <script src="http://127.0.0.1:5000/static/script.js" defer></script>
+</head>
+<body>
+    <div class="game-modal">
+        <div class="content">
+            <img src="http://127.0.0.1:5000/static/lost.png" alt="gif">
+            <h4>Game Over!</h4>
+            <p>The correct word was: <b>rainbow</b></p>
+            <button class="play-again">Play Again</button>
+            <button class="play-again"> <a href="{{url_for('index')}}" class="off" style="color: aliceblue;">MAIN PAGE</a></button>
+        </div>
+    </div>
+    <div class="container">
+        <div class="hangman-box">
+            <img src="http://127.0.0.1:5000/static/win.png" draggable="false" alt="hangman-img">
+            <h1>Hangman Game</h1>
+        </div>
+        <div class="game-box">
+            <ul class="word-display"></ul>
+            <h4 class="hint-text">Hint: <b></b></h4>
+            <h4 class="guesses-text">Incorrect guesses: <b></b></h4>
+            <div class="keyboard"></div>
+        </div>
+    </div>
+</body>
+</html>

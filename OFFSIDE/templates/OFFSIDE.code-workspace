@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"name": "OFFSIDE",
+			"path": ".."
+		}
+	],
+	"settings": {
+		"liveServer.settings.port": 5501
+	}
+}

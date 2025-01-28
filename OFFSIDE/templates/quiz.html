@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz App by Offside</title>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+    }
+    body{
+        background: #001e4d;
+    }
+    .app{
+        background:#fff;
+        width: 90%;
+        max-width: 600px;
+        margin: 100px auto 0;
+        border-radius: 10px;
+        padding: 30px;
+
+    }
+    .app h1{
+        font-size: 25px;
+        color: #001e4d;
+        font-weight: 600;
+       border-radius: 1px solid #333;
+       padding-bottom: 30px;
+    }
+    .quiz{
+        padding: 20px 0;
+    }
+    .quiz h2{
+        font-size: 18px;
+        color: #001e4d;
+        font-weight: 600;
+    }
+    .btn{
+        background: #fff;
+        color: #222;
+        font-weight: 500;
+        width: 100%;
+        border: 1px solid #222;
+        padding: 10px 0;
+        margin: 10px 0;
+        text-align: left;   
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+    .btn:hover:not([disabled]){
+        background: #222;
+        color: #fff;
+    }
+
+    .btn:disabled{
+        cursor: no-drop;
+    }
+    #next-btn{
+        background: #001e4d;
+        color: #fff;
+        font-weight: 500;
+        width: 150px;
+        border: 0;
+        padding: 10px;
+        margin: 20px auto 0;
+        border-radius: 4px;
+        cursor: pointer;
+        display:flex;
+        text-align:center;
+
+    }
+    .correct{
+        background: #9aeabc;
+    }
+    .incorrect{
+        background: #ff9393;
+    }
+
+</style>
+</head>
+<body>
+    <div class="app">
+        <h1>Cricket Quiz</h1>
+        <div class="quiz">
+            <h2 id="question">Question goes here</h2>
+            <div id="answer-buttons">
+                <button class="btn">Answer 1</button>
+                <button class="btn">Answer 2</button>
+                <button class="btn">Answer 3</button>
+                <button class="btn">Answer 4</button>
+            </div>
+            <button id="next-btn">Next</button>
+        </div>
+    </div>
+    <script>
+        const questions =[
+    {
+        question: "Who has the highest strike rate among openers in ODIs(min. 100 innings)?",
+        answers: [
+        { text: "Virender Sehwag", correct:false },
+        { text: "Jason Roy", correct:true },
+        { text: "Brandon McCullum", correct:false },
+        { text: "Sourav Ganguly", correct:false },
+        ],
+    },
+    // ... (other questions)
+    {
+                question : "Who is the 3rd slowest Indian to reach 2000 runs in ODI?",
+                answers: [
+                    {text:"Rohit Sharma", correct:true },
+                    {text:"Ravindra Jadeja", correct:false},
+                    {text:"Akash Chopra", correct:false},
+                    {text:"Kapil Dev", correct:false},
+                    
+                ]
+            },
+            {
+                question : "Who became the second Australian to lead them in International matches in his first match for Australia?",
+                answers: [
+                    {text:"Ricky Ponting", correct:false },
+                    {text:"Don Bradman", correct:false},
+                    {text:"Mike Hussey", correct:false},
+                    {text:"George Bailey", correct:true},
+                    
+                ]
+            },
+    {
+        question : "Which cricketer has played the most number of ODI world cup matches?",
+        answers: [
+            {text:"Sachin Tendulkar", correct:false },
+            {text:"Javed Miandad", correct:false},
+            {text:"Ricky Ponting", correct:true},
+            {text:"Jayawardene", correct:false},
+            
+        ]
+    },
+    {
+        question : "Which bowler has taken most wickets in ODI world cups?",
+        answers: [
+            {text:"Muralitharan", correct:false },
+            {text:"Glenn McGrath", correct:true},
+            {text:"Wasim Akram", correct:false},
+            {text:"Zaheer Khan", correct:false},
+            
+        ]
+    },
+    {
+        question : "Which team holds the record for most test series wins at home?",
+        answers: [
+            {text:"Australia", correct:false },
+            {text:"England", correct:false},
+            {text:"South Africa", correct:false},
+            {text:"India", correct:true},
+            
+        ]
+    },
+    {
+        question : "Which team has won most matches in ODIs",
+        answers: [
+            {text:"Australia", correct:true },
+            {text:"India", correct:false},
+            {text:"England", correct:false},
+            {text:"New Zealand", correct:false},
+            
+        ]
+    },
+    {
+        question : "Which player leads the record of most test matches lost in history?",
+        answers: [
+            {text:"Sachin Tendulkar", correct:false },
+            {text:"James Anderson", correct:false},
+            {text:"Shivnarine Chanderpaul", correct:true},
+            {text:"Mushfiqur Rahim", correct:false},
+            
+        ]
+    },
+    {
+        question : "Who was the leading run scorer for New Zealand in the World cup 2019?",
+        answers: [
+            {text:"Ross Taylor", correct:false },
+            {text:"Kane Williamson", correct:true},
+            {text:"Martin Guptill", correct:false},
+            {text:"Henry Nicholls", correct:false},
+            
+        ]
+    },
+    {
+        question : "Who was the top scorer for India in the world cup",
+        answers: [
+            {text:"Sachin Tendulka", correct:true },
+            {text:"Yuvraj Singh", correct:false},
+            {text:"MS Dhoni", correct:false},
+            {text:"Gautam Gambhir", correct:false},
+            
+        ]
+    },
+    {
+        question : "Which of these players have not scored a test century outside Asia?",
+        answers: [
+            {text:"Rishabh Pant", correct:false },
+            {text:"Virender Sehwag", correct:false},
+            {text:"MS Dhoni", correct:true},
+            {text:"Yashasvi Jaiswal", correct:false},
+            
+        ]
+    },
+    {
+        question : "Which Indian wicket keeper holds the record of the most number of stumpings in an innings of a test match?",
+        answers: [
+            {text:"Rishabh Pant", correct:false },
+            {text:"MS Dhoni", correct:false},
+            {text:"Syed Kirmani", correct:false},
+            {text:"Kiran More", correct:true},
+            
+        ]
+    },
+    {
+        question : "Who is the player with most hat-tricks in a single IPL season?",
+        answers: [
+            {text:"Amit Mishra", correct:false },
+            {text:"Yuvraj Singh", correct:true},
+            {text:"Praveen Kumar", correct:false},
+            {text:"Jasprit Bumrah", correct:false},
+            
+        ]
+    },
+    {
+        question : "Who was the player of the match in the IND vs NZ semi final?",
+        answers: [
+            {text:"Trent Boult", correct:false },
+            {text:"Kane Williamson", correct:false},
+            {text:"MS Dhoni", correct:false},
+            {text:"Matt Henry", correct:true},
+            
+        ]
+    },
+    {
+        question : "Who took most wickets for India in that match?",
+        answers: [
+            {text:"Jasprit Bumrah", correct:false },
+            {text:"Hardik Pandya", correct:false},
+            {text:"Ravindra Jadeja", correct:false},
+            {text:"Bhuvneshwar Kumar", correct:true},
+            
+        ]
+    },
+    {
+        question : "Which Indian player was not part playing 11 of the 2019 semi final match?",
+        answers: [
+            {text:"Dinesh Karthik", correct:false },
+            {text:"Shikhar Dhawan", correct:true},
+            {text:"Yuzvendra Chahal", correct:false},
+            {text:"Rishabh Pant", correct:false},
+            
+        ]
+    },
+    {
+        question : "Who is the only player to score a century in the final of the 2011 world cup?",
+        answers: [
+            {text:"Kumar Sangakkara", correct:false },
+            {text:"Gautam Gambhir", correct:false},
+            {text:"Mahela Jayawardene", correct:true},
+            {text:"MS Dhoni", correct:false},
+            
+        ]
+    },
+    {
+        question : "Who has the best Test-average ever in the history?",
+        answers: [
+            {text:"Virat Kholi", correct:false },
+            {text:"Jack Hobbs", correct:false},
+            {text:"George Headley", correct:false},
+            {text:"Don Bradman", correct:true},
+            
+        ]
+    },
+    {
+        question : "Which pair has the most 100+ partnerships in ODI matches?",
+        answers: [
+            {text:"SC Ganguly, SR Tendulkar (IND)", correct:true },
+            {text:"TM Dilshan, KC Sangakkara (SL)", correct:false},
+            {text:"V Kohli, RG Sharma (IND)", correct:false},
+            {text:"AC Gilchrist, ML Hayden (AUS)", correct:false},
+            
+        ]
+    },
+    {
+    question : "India won the 2000 U19 cricket world cup with Yuvraj Singh as the man of the tournament. Who was the captain of the Indian team?",
+    answers: [
+        {text:"Yuvraj Singh", correct:false },
+        {text:"Parthiv Patel", correct:false},
+        {text:"Mohammad Kaif", correct:true},
+        {text:"Reetinder Sodhi", correct:false},
+        
+        ]
+    }
+];
+
+const questionElement =document.getElementById("question");
+const answerButton =document.getElementById("answer-buttons");
+const nextButton =document.getElementById("next-btn");
+
+
+let currentQuestionIndex =0;
+let score=0;
+
+function startQuiz(){
+    currentQuestionIndex=0;
+    score=0;
+    nextButton.innerHTML="Next";
+    showQuestion();
+
+}
+function showQuestion(){
+    resetstate();
+    let currentQuestion =questions[currentQuestionIndex];
+    let questionNo = currentQuestionIndex + 1;
+    questionElement.innerHTML=questionNo + ". " + currentQuestion.question;
+    currentQuestion.answers.forEach(answer =>{
+        const button = document.createElement("button");
+        button.innerHTML= answer.text;
+        button.classList.add("btn");
+        answerButton.appendChild(button);
+
+        if(answer.correct){
+            button.dataset.correct=answer.correct;
+        }
+        button.addEventListener("click",selectAnswer);
+    });
+}
+function resetstate(){
+    nextButton.style.display ="none";
+    while(answerButton.firstChild){
+        answerButton.removeChild(answerButton.firstChild);
+
+    }
+}
+
+function selectAnswer(e){
+    const selectBtn =e.target;
+    const isCorrect =selectBtn.dataset.correct ==="true";
+    if(isCorrect){
+       selectBtn.classList.add("correct");
+       score++;
+    }
+    else{
+        selectBtn.classList.add("incorrect");
+    }
+    Array.from(answerButton.children).forEach(button =>{
+        if(button.dataset.correct ==="true"){
+            button.classList.add("correct");
+        }
+        button.disabled = true;
+    });
+    nextButton.style.display ="block";
+}
+function showScore(){
+    resetstate();
+    questionElement.innerHTML=`Your Score is ${score} out of ${questions.length}!`;
+    nextButton.innerHTML="Play Again !!";
+    nextButton.style.display ="block";
+}
+function handlleNextButton(){
+    currentQuestionIndex++;
+    if(currentQuestionIndex<questions.length){
+        showQuestion();
+    }
+    else{
+        showScore();
+    }
+}
+
+nextButton.addEventListener("click",() =>{
+ if(currentQuestionIndex<questions.length){
+    handlleNextButton();
+ }
+ else{
+        startQuiz();
+ }
+});
+startQuiz();
+    </script>
+</body>
+</html>
